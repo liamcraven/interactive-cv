@@ -1,7 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef} from 'react';
 import './../Home.css'
 
 function Home() {
+    const backgroundRef = useRef(null);
+    const educationRef = useRef(null);
+    const skillsRef = useRef(null);
+    const projectsRef = useRef(null);
+    const experienceRef = useRef(null);
+    const blogsRef = useRef(null);
 
     useEffect(() => {
         const starContainer = document.querySelector('.stars');
@@ -20,15 +26,41 @@ function Home() {
         }
     }, []);
 
+    const handleOrbitEnd = (e, ref) => {
+        if (!ref.current) {
+            return;
+        }
+        if (e.animationName === 'orbitIn') {
+            console.log('Removing orbit-in-animation class')
+            ref.current.classList.remove('orbit-in-animation');
+            ref.current.classList.add('orbit-out-animation');
+        } else if (e.animationName === 'orbitOut') {
+            ref.current.classList.remove('orbit-out-animation');
+        }
 
-    const handleMouseEnter = (e) => {
-        const label = e.target.querySelector('.planet-label');
-        label.style.animation = 'orbitIn 5s forwards'
+        if (ref.current.boundHandleOrbitEnd) {
+            ref.current.removeEventListener('animationend', ref.current.boundHandleOrbitEnd);
+        }
     };
 
-    const handleMouseLeave = (e) => {
-        const label = e.target.querySelector('.planet-label');
-        label.style.animation = 'orbitOut 5s forwards'
+    const handleMouseEnter = (ref) => {
+        //Check not null
+        if (!ref.current) return;
+        if (!ref.current.classList.contains('orbit-in-animation') && !ref.current.classList.contains('orbit-out-animation')) {
+            ref.current.classList.add('orbit-in-animation');
+            const boundHandleOrbitEnd = (e) => handleOrbitEnd(e, ref);
+            ref.current.handleOrbitEnd = boundHandleOrbitEnd;
+            ref.current.addEventListener('animationend', boundHandleOrbitEnd);
+        }
+    };
+
+    const handleMouseLeave = (ref) => {
+        if(!ref.current) return;
+        if (ref.current.classList.contains('orbit-in-animation')) {
+            return;
+        } else {
+            ref.current.classList.add('orbit-out-animation');
+        }
     };
 
     return (
@@ -37,30 +69,41 @@ function Home() {
             <h1>Liam Craven</h1>
             <p>Add my tagline here!</p>
             <div className="planets">
-                    <div className='planet-container'>
-                        <div className='planet' id='background-planet'></div>
-                        <div className='planet-label'>Background</div>
-
-                    </div>
-                    <div className='planet-container'>
+                <div className='planet-container' 
+                    onMouseOver={() => handleMouseEnter(backgroundRef)} 
+                    onMouseOut={() => handleMouseLeave(backgroundRef)}>
+                    <div className='planet' id='background-planet'></div>
+                    <div className='planet-label' ref={backgroundRef}>Background</div>
+                </div>
+                    <div className='planet-container' 
+                        onMouseOver={() => handleMouseEnter(educationRef)} 
+                        onMouseOut={() => handleMouseLeave(educationRef)}>
                         <div className='planet' id='education-planet'></div>
-                        <div className='planet-label'>Education</div>
+                        <div className='planet-label' ref={educationRef}>Education</div>
                     </div>
-                    <div className='planet-container'>
+                    <div className='planet-container' 
+                        onMouseEnter={() => handleMouseEnter(skillsRef)} 
+                        onMouseLeave={() => handleMouseLeave(skillsRef)}>
                         <div className='planet' id='skills-planet'></div>
-                        <div className='planet-label'>Skills</div>
+                        <div className='planet-label' ref={skillsRef}>Skills</div>
                     </div>
-                    <div className='planet-container'>
+                    <div className='planet-container' 
+                        onMouseEnter={() => handleMouseEnter(projectsRef)} 
+                        onMouseLeave={() => handleMouseLeave(projectsRef)}>
                         <div className='planet' id='projects-planet'></div>
-                        <div className='planet-label'>Projects</div>
+                        <div className='planet-label' ref={projectsRef}>Projects</div>
                     </div>
-                    <div className='planet-container'>
+                    <div className='planet-container'
+                        onMouseEnter={() => handleMouseEnter(experienceRef)} 
+                        onMouseLeave={() => handleMouseLeave(experienceRef)}>
                         <div className='planet' id='experience-planet'></div>
-                        <div className='planet-label'>Experience</div>
+                        <div className='planet-label' ref={experienceRef}>Experience</div>
                     </div>
-                    <div className='planet-container'>
+                    <div className='planet-container'
+                        onMouseEnter={() => handleMouseEnter(blogsRef)} 
+                        onMouseLeave={() => handleMouseLeave(blogsRef)}>
                         <div className='planet' id='blogs-planet'></div>
-                        <div className='planet-label'>Blogs</div>
+                        <div className='planet-label' ref={blogsRef}>Blogs</div>
                     </div>
             </div>
         </div>
