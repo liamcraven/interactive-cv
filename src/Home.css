@@ -1,0 +1,136 @@
+.home-container {
+    background-color: #000;
+    color: #FFF;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.planets {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2rem;
+}
+
+.planet-container {
+    position: relative;
+    width: calc((100vw - 10rem) / 6);
+    height: calc((100vw - 10rem) / 6);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.planet {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.planet-container:hover .planet {
+    transform: scale(1.1);
+}
+
+.planet-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-150%); /* Start from the left side */
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap; /* Prevent the label from breaking into multiple lines */
+}
+
+.planet-container:hover .planet-label {
+    animation: orbitIn 5s forwards; /* Orbit animation */
+}
+
+@keyframes orbitIn {
+    0% {
+        transform: translateY(-50%) translateX(-150%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(-50%) translateX(-50%);
+        opacity: 1;
+    }
+}
+
+@keyframes orbitOut {
+    0% {
+        transform: translateY(-50%) translateX(-50%);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50%) translateX(50%);
+        opacity: 0;
+    }
+}
+
+
+#background-planet {
+    background-image: url('./assets/planets/background_planet.png');
+    background-size: cover;
+}
+
+#education-planet {
+    background-image: url('./assets/planets/education_planet.png');
+    background-size: cover;
+}
+
+#experience-planet {
+    background-image: url('./assets/planets/experience_planet.png');
+    background-size: cover;
+}
+
+#skills-planet {
+    background-image: url('./assets/planets/skills_planet.png');
+    background-size: cover;
+}
+
+#blogs-planet {
+    background-image: url('./assets/planets/blogs_planet.png');
+    background-size: cover;
+}
+
+#projects-planet {
+    background-image: url('./assets/planets/projects_planet.png');
+    background-size: cover;
+}
+
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+}
+
+.star {
+    position: absolute;
+    background-color: #FFF;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: twinkle 1.5s infinite alternate;
+}
+
+@keyframes twinkle {
+    0% {opacity: 0.7;}
+    50% {opacity: 1;}
+    100% {opacity: 0.7;}
+}
